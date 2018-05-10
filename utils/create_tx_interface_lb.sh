@@ -1,11 +1,11 @@
 #!/usr/bin/env bash
 
 NET_ID=fd7da087-1036-4ae3-a3de-83ba82d34740
-IFACE_ID=b68884c1-a54b-491e-9404-4ee99eb5b0c3
-IFACE_IPV4=10.0.0.4
-IFACE_IPV6=fd5c:fb43:92c3:0:f816:3eff:fe94:aeec
-IFACE_MAC=fa:16:3e:94:ae:ec
-IFACE_NAME=rx-miguel-lb
+IFACE_ID=32ed97e8-98f2-43e9-9f25-a79b421bf326
+IFACE_IPV4=10.0.0.10
+IFACE_IPV6=fd5c:fb43:92c3:0:f816:3eff:feee:48a
+IFACE_MAC=fa:16:3e:ee:04:8a
+IFACE_NAME=tx-miguel-lb
 
 # Set up namespace
 sudo ip netns add ns-$IFACE_NAME
