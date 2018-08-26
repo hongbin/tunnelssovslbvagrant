@@ -4,13 +4,13 @@
 # $1 -  Allinone node IP adddress
 ALLINONE_IP=$1
 
-cp /vagrant/provisioning/local.conf.base devstack/local.conf
+cp /vagrant/provisioning/local.conf.base /opt/stack/devstack/local.conf
 
 # Get the IP address
-ipaddress=$(ip -4 addr show eth1 | grep -oP "(?<=inet ).*(?=/)")
+ipaddress=$2
 
 # Adjust some things in local.conf
-cat << DEVSTACKEOF >> devstack/local.conf
+cat << DEVSTACKEOF >> /opt/stack/devstack/local.conf
 
 # Set this host's IP
 HOST_IP=$ipaddress
@@ -39,4 +39,4 @@ local_ip=$ipaddress
 udp_dstport=4789
 DEVSTACKEOF
 
-devstack/stack.sh
+/opt/stack/devstack/stack.sh

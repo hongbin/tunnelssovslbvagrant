@@ -1,12 +1,12 @@
 #!/usr/bin/env bash
 
-cp /vagrant/provisioning/local.conf.base devstack/local.conf
+cp /vagrant/provisioning/local.conf.base /opt/stack/devstack/local.conf
 
 # Get the IP address
-ipaddress=$(ip -4 addr show eth1 | grep -oP "(?<=inet ).*(?=/)")
+ipaddress=$1
 
 # Adjust local.conf
-cat << DEVSTACKEOF >> devstack/local.conf
+cat << DEVSTACKEOF >> /opt/stack/devstack/local.conf
 
 # Set this host's IP
 HOST_IP=$ipaddress
@@ -65,4 +65,4 @@ enable_isolated_metadata=True
 expiration=30000000
 DEVSTACKEOF
 
-devstack/stack.sh
+/opt/stack/devstack/stack.sh

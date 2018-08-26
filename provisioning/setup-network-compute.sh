@@ -8,10 +8,10 @@ ALLINONE_IP=$1
 VLAN_INTERFACE=$2
 PHYSICAL_NETWORK=$3
 
-cp /vagrant/provisioning/local.conf.base devstack/local.conf
+cp /vagrant/provisioning/local.conf.base /opt/stack/devstack/local.conf
 
 # Get the IP address
-ipaddress=$(ip -4 addr show eth1 | grep -oP "(?<=inet ).*(?=/)")
+ipaddress=$4
 
 # Create bridge for Vlan type networks
 sudo ifconfig $VLAN_INTERFACE 0.0.0.0 up
@@ -20,7 +20,7 @@ sudo ovs-vsctl add-br $bridge
 sudo ovs-vsctl add-port $bridge $VLAN_INTERFACE
 
 # Adjust some things in local.conf
-cat << DEVSTACKEOF >> devstack/local.conf
+cat << DEVSTACKEOF >> /opt/stack/devstack/local.conf
 
 # Set this host's IP
 HOST_IP=$ipaddress
@@ -56,4 +56,4 @@ dhcp_delete_namespaces=True
 enable_isolated_metadata=True
 DEVSTACKEOF
 
-devstack/stack.sh
+/opt/stack/devstack/stack.sh

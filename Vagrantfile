@@ -8,6 +8,7 @@ vagrant_config = YAML.load_file("provisioning/virtualbox.conf.yml")
 
 Vagrant.configure(2) do |config|
   config.vm.box = vagrant_config['box']
+  config.disksize.size = '50GB'
 
   if Vagrant.has_plugin?("vagrant-cachier")
     # Configure cached packages to be shared between instances of the same base box.
@@ -15,16 +16,13 @@ Vagrant.configure(2) do |config|
     config.cache.scope = :box
   end
 
-  #config.vm.synced_folder
-  config.vm.synced_folder File.expand_path("~/neutron"), "/opt/stack/neutron"
-  config.vm.synced_folder File.expand_path("~/nova"), "/opt/stack/nova"
-
   # Bring up the Devstack allinone node on Virtualbox
   config.vm.define "allinone", primary: true do |allinone|
     allinone.vm.host_name = vagrant_config['allinone']['host_name']
     allinone.vm.network "private_network", ip: vagrant_config['allinone']['ip']
     allinone.vm.provision "shell", path: "provisioning/setup-base.sh", privileged: false
-    allinone.vm.provision "shell", path: "provisioning/setup-allinone.sh", privileged: false
+    allinone.vm.provision "shell", path: "provisioning/setup-allinone.sh", privileged: false,
+      :args => "#{vagrant_config['allinone']['ip']}"
     allinone.vm.provider "virtualbox" do |vb|
        vb.memory = vagrant_config['allinone']['memory']
        vb.cpus = vagrant_config['allinone']['cpus']
@@ -45,7 +43,7 @@ Vagrant.configure(2) do |config|
     compute1.vm.network "private_network", ip: vagrant_config['compute1']['ip']
     compute1.vm.provision "shell", path: "provisioning/setup-base.sh", privileged: false
     compute1.vm.provision "shell", path: "provisioning/setup-compute.sh", privileged: false,
-      :args => "#{vagrant_config['allinone']['ip']}"
+      :args => "#{vagrant_config['allinone']['ip']} #{vagrant_config['compute1']['ip']}"
     compute1.vm.provider "virtualbox" do |vb|
        vb.memory = vagrant_config['compute1']['memory']
        vb.cpus = vagrant_config['compute1']['cpus']
@@ -67,7 +65,7 @@ Vagrant.configure(2) do |config|
     compute2.vm.network "private_network", ip: vagrant_config['compute2']['ip']
     compute2.vm.provision "shell", path: "provisioning/setup-base.sh", privileged: false
     compute2.vm.provision "shell", path: "provisioning//setup-compute-lb.sh", privileged: false,
-      :args => "#{vagrant_config['allinone']['ip']}"
+      :args => "#{vagrant_config['allinone']['ip']} #{vagrant_config['compute2']['ip']}"
     compute2.vm.provider "virtualbox" do |vb|
        vb.memory = vagrant_config['compute2']['memory']
        vb.cpus = vagrant_config['compute2']['cpus']
@@ -88,7 +86,7 @@ Vagrant.configure(2) do |config|
     compute3.vm.network "private_network", ip: vagrant_config['compute3']['ip']
     compute3.vm.provision "shell", path: "provisioning/setup-base.sh", privileged: false
     compute3.vm.provision "shell", path: "provisioning/setup-compute-lb.sh", privileged: false,
-      :args => "#{vagrant_config['allinone']['ip']}"
+      :args => "#{vagrant_config['allinone']['ip']} #{vagrant_config['compute3']['ip']}"
     compute3.vm.provider "virtualbox" do |vb|
        vb.memory = vagrant_config['compute3']['memory']
        vb.cpus = vagrant_config['compute3']['cpus']
