@@ -1,51 +1,6 @@
 #!/bin/sh
 
-BASE_PACKAGES="git bridge-utils ebtables python-pip python-dev build-essential ntp openvswitch-switch jq vlan libpcre3-dev"
 DEBIAN_FRONTEND=noninteractive sudo apt-get -qqy update
-#DEBIAN_FRONTEND=noninteractive sudo apt-get install -qqy $BASE_PACKAGES
-#echo export LC_ALL=en_US.UTF-8 >> ~/.bash_profile
-#echo export LANG=en_US.UTF-8 >> ~/.bash_profile
-#echo source ~/.bashrc >> ~/.bash_profile
-
-# FIXME(mestery): Remove once Vagrant boxes allow apt-get to work again
-#sudo rm -rf /var/lib/apt/lists/*
-#sudo apt-get install -y git
-
-# Enable history and command line editing
-#cat << DEVSTACKEOF >> .bashrc
-
-## Enable history and command line editing
-#set -o vi
-#VISUAL=vim
-#DEVSTACKEOF
-
-# Add vim plug-ins to make Python development easier
-
-#cat << DEVSTACKEOF > .vimrc
-#set tabstop=8
-#set expandtab
-#set shiftwidth=4
-#set softtabstop=4
-#set textwidth=79
-#syntax on
-#filetype on
-#filetype plugin indent on
-#set autoindent
-#set nu
-#set ruler
-#execute pathogen#infect()
-#autocmd FileType python set omnifunc=pythoncomplete#Complete
-#let g:syntastic_auto_loc_list=1
-#let g:syntastic_python_checkers=['flake8']
-#let g:syntastic_quiet_messages = {"regex": "D10*"}
-#DEVSTACKEOF
-
-#mkdir -p ~/.vim/autoload ~/.vim/bundle
-#curl -LSso ~/.vim/autoload/pathogen.vim https://tpo.pe/pathogen.vim
-#sudo pip install flake8
-#git clone https://github.com/scrooloose/syntastic.git .vim/bundle/syntastic
-#git clone https://github.com/tmhedberg/SimpylFold .vim/bundle/SimpylFold
-#git clone https://github.com/Raimondi/delimitMate .vim/bundle/delimitMate
 
 # Prepare for devstack
 
