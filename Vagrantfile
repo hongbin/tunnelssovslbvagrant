@@ -42,7 +42,7 @@ Vagrant.configure(2) do |config|
     compute1.vm.host_name = vagrant_config['compute1']['host_name']
     compute1.vm.network "private_network", ip: vagrant_config['compute1']['ip']
     compute1.vm.provision "shell", path: "provisioning/setup-base.sh", privileged: false
-    compute1.vm.provision "shell", path: "provisioning/setup-compute-lb.sh", privileged: false,
+    compute1.vm.provision "shell", path: "provisioning/setup-compute.sh", privileged: false,
       :args => "#{vagrant_config['allinone']['ip']} #{vagrant_config['compute1']['ip']}"
     compute1.vm.provider "virtualbox" do |vb|
        vb.memory = vagrant_config['compute1']['memory']

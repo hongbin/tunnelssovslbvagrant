@@ -16,7 +16,7 @@ HOST_IP=$ipaddress
 LOGFILE=/opt/stack/logs/stack.sh.log
 
 # Enable services to be executed in compute node
-ENABLED_SERVICES=n-cpu,q-agt,n-api-meta,c-vol,placement-client
+ENABLED_SERVICES=n-cpu,q-agt,n-api-meta,placement-client,zun-compute,kuryr-libnetwork
 
 DATABASE_PASSWORD=password
 RABBIT_PASSWORD=password
@@ -34,6 +34,13 @@ NOVA_VNC_ENABLED=True
 NOVNCPROXY_URL="http://$ALLINONE_IP:6080/vnc_auto.html"
 VNCSERVER_LISTEN=$ipaddress
 VNCSERVER_PROXYCLIENT_ADDRESS=$ipaddress
+
+enable_plugin devstack-plugin-container https://git.openstack.org/openstack/devstack-plugin-container
+enable_plugin zun https://git.openstack.org/openstack/zun
+enable_plugin kuryr-libnetwork https://git.openstack.org/openstack/kuryr-libnetwork
+
+KURYR_CAPABILITY_SCOPE=global
+KURYR_PROCESS_EXTERNAL_CONNECTIVITY=False
 
 DEVSTACKEOF
 
